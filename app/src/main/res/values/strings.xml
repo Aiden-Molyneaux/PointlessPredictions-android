@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">PointlessPredictions</string>
+    <string name="label_sign_in_to_account">Sign In</string>
+    <string name="label_sign_up_for_account">Sign Up</string>
+    <string name="action_sign_in">Sign In</string>
+    <string name="action_sign_up">Sign Up</string>
+    <string name="action_need_account">Don\'t have an account? SIGN UP</string>
+    <string name="action_already_have_account">Already have an account?</string>
+    <string name="error_title">Whoops</string>
+    <string name="error_action">Moving on</string>
+</resources>
