@@ -1,5 +1,6 @@
 package carleton.comp2601.pointlesspredictions
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -41,7 +42,13 @@ import carleton.comp2601.pointlesspredictions.ui.theme.PointlessPredictionsTheme
 import carleton.comp2601.pointlesspredictions.ui.theme.Shapes
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavHost
+import androidx.navigation.NavHostController
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.HiltAndroidApp
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,15 +59,26 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = colors.background
                 ) {
+                    val homeViewModel = hiltViewModel<HomeViewModel>()
+
                     LandingPage()
                 }
             }
         }
     }
 }
-
+fun addUserInDB(
+//    context: Context,
+//    navController: NavHostController,
+    user: User,
+    homeViewModel: HomeViewModel
+){
+    homeViewModel.addUser(user)
+    //navController.popBackStack()
+}
 @Composable
 fun LandingPage() {
+
     Column (
         Modifier
             .padding(24.dp)
@@ -94,7 +112,7 @@ fun LandingPage() {
             modifier = Modifier.padding(top = 40.dp)
         )
 
-        LoginForm()
+        LoginForm(homeViewModel, homeViewModel.userList)
     }
 }
 

@@ -1,9 +1,15 @@
 package carleton.comp2601.pointlesspredictions
 
+import android.content.Context
 import android.util.Log
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavHostController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,6 +19,10 @@ import java.util.HashMap
 
 class AuthViewModel : ViewModel() {
     //var HashMap<String, String> HashMap = new HashMap<String, String>()
+
+    //val selection=HomeViewModel(UserRepository(UserDao))
+    //val HomeViewModel: HomeViewModel = viewModel()
+
     val meMap = mutableStateMapOf<String, String>()
 
 
@@ -32,7 +42,7 @@ class AuthViewModel : ViewModel() {
                 updatePassword(authEvent.password)
             }
             is AuthEvent.Authenticate -> {
-                authenticate(authEvent.username, authEvent.password)
+                authenticate(authEvent.homeViewModel, authEvent.users, authEvent.username, authEvent.password)
             }
             is AuthEvent.ErrorDismissed -> {
                 dismissError()
@@ -66,22 +76,31 @@ class AuthViewModel : ViewModel() {
         )
     }
 
-    private fun authenticate(username: String, password: String) {
+    //@Composable
+    private fun authenticate(homeViewModel: HomeViewModel, users: LiveData<List<User>>, username: String, password: String) {
         uiState.value = uiState.value.copy(
             isLoading = true
         )
         viewModelScope.launch(Dispatchers.IO) {
             delay(2000L)
 
-            if (authMode == AuthMode.SIGN_IN && meMap[username] == password) {
-                Log.d("SIGN_IN", "Does this work?")
-            } else if (authMode == AuthMode.SIGN_UP) {
-                meMap[username] = password
-                Log.d("SIGN_UP", "Does this work?")
-            } else {
-                Log.d("FAIL", "Does this work?")
-                Log.d("authMode", authMode.name)
-            }
+//            if (authMode == AuthMode.SIGN_IN && meMap[username] == password) {
+//                Log.d("SIGN_IN", "Does this work?")
+//            } else if (authMode == AuthMode.SIGN_UP) {
+//                meMap[username] = password
+//                Log.d("SIGN_UP", "Does this work?")
+//            } else {
+//                Log.d("FAIL", "Does this work?")
+//                Log.d("authMode", authMode.name)
+//            }
+            val user = User(
+                id = 1,
+                userName = uiState.value.username?: "",
+                password = uiState.value.password?: ""
+            )
+            //addUserInDB(user, HomeViewModel)
+
+            addUserInDB(user, homeViewModel)
 
             withContext(Dispatchers.Main) {
                 uiState.value = uiState.value.copy(

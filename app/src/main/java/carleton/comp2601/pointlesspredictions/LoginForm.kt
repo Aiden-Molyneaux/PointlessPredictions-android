@@ -7,16 +7,23 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
-fun LoginForm() {
+fun LoginForm(
+    homeViewModel: HomeViewModel,
+    users: LiveData<List<User>>
+) {
     val viewModel: AuthViewModel = viewModel()
+
     MaterialTheme {
         LoginContent(
               modifier = Modifier.fillMaxWidth(),
               authState = viewModel.uiState.collectAsState().value,
-              handleEvent = viewModel::handleEvent
+              handleEvent = viewModel::handleEvent,
+              homeViewModel = homeViewModel,
+              users = users
         )
     }
 }
@@ -25,7 +32,9 @@ fun LoginForm() {
 fun LoginContent(
     modifier: Modifier = Modifier,
     authState: AuthState,
-    handleEvent: (event: AuthEvent) -> Unit
+    handleEvent: (event: AuthEvent) -> Unit,
+    homeViewModel: HomeViewModel,
+    users: LiveData<List<User>>
 ) {
     Column (
         Modifier
@@ -50,7 +59,7 @@ fun LoginContent(
                     handleEvent(AuthEvent.PasswordChanged(it))
                 },
                 onAuthenticate = {
-                    handleEvent(AuthEvent.Authenticate(authState.username ?: "", authState.password ?: ""))
+                    handleEvent(AuthEvent.Authenticate(homeViewModel, users, authState.username ?: "", authState.password ?: ""))
                 },
                 onToggleMode = {
                     handleEvent(AuthEvent.ToggleAuthMode)
