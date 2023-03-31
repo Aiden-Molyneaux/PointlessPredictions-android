@@ -17,7 +17,8 @@ private val LightColorPalette = lightColors(
     primaryVariant = Purple700,
     secondary = tiffanyBlue,
     background = coolGray,
-    onBackground = mintGreen
+    onBackground = mintGreen,
+    onSecondary = chineseViolet
 
     /* Other default colors to override
     ,

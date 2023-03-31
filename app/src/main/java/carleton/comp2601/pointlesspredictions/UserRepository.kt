@@ -1,13 +1,14 @@
 package carleton.comp2601.pointlesspredictions
 
 import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import carleton.comp2601.pointlesspredictions.entities.Prediction
+import carleton.comp2601.pointlesspredictions.entities.User
+import kotlinx.coroutines.*
 
 class UserRepository(private val userDao: UserDao) {
     val allUsers = MutableLiveData<List<User>>()
     val foundUser = MutableLiveData<User>()
+
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     fun addUser(newUser: User) {
@@ -22,9 +23,30 @@ class UserRepository(private val userDao: UserDao) {
         }
     }
 
-    fun getAllUsers() {
+    fun deleteUser(user: User) {
         coroutineScope.launch(Dispatchers.IO) {
+            userDao.deleteUser(user)
+        }
+    }
+
+    fun findUserByUsername(userName: String) {
+        coroutineScope.launch(Dispatchers.IO) {
+            userDao.findUserByUsername(userName)
+        }
+
+    }
+
+    fun getAllUsers() {
+        val result = coroutineScope.async(Dispatchers.IO) {
             userDao.getAllUsers()
         }
     }
+
+    fun addPrediction(prediction: Prediction) {
+        coroutineScope.launch(Dispatchers.IO) {
+            userDao.addPrediction(prediction)
+        }
+    }
+
+
 }

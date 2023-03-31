@@ -1,4 +1,4 @@
-package carleton.comp2601.pointlesspredictions
+package carleton.comp2601.pointlesspredictions.entities
 
 import android.os.Parcelable
 import androidx.annotation.NonNull
@@ -12,8 +12,8 @@ import kotlinx.parcelize.Parcelize
 data class User (
     @PrimaryKey(autoGenerate = false)
     @NonNull
-    @ColumnInfo(name = "id")
-    var id: Int,
+    @ColumnInfo(name = "user_id")
+    var user_id: Int,
 
     @ColumnInfo(name = "userName")
     var userName: String,

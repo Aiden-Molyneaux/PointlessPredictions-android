@@ -1,6 +1,8 @@
 package carleton.comp2601.pointlesspredictions
 
 import androidx.lifecycle.LiveData
+import androidx.navigation.NavController
+import carleton.comp2601.pointlesspredictions.entities.User
 
 sealed class AuthEvent {
     object ToggleAuthMode: AuthEvent()
@@ -11,7 +13,7 @@ sealed class AuthEvent {
     class PasswordChanged(val password: String):
         AuthEvent()
 
-    class Authenticate(val homeViewModel: HomeViewModel, val users: LiveData<List<User>>, val username: String, val password: String):
+    class Authenticate(val navController: NavController, val dao : UserDao, val username: String, val password: String):
         AuthEvent()
 
     object ErrorDismissed: AuthEvent()

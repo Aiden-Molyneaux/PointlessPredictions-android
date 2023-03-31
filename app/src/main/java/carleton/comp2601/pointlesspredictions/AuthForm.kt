@@ -1,13 +1,14 @@
 package carleton.comp2601.pointlesspredictions
 
+import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,16 +32,24 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import carleton.comp2601.pointlesspredictions.entities.User
 import carleton.comp2601.pointlesspredictions.ui.theme.PointlessPredictionsTheme
 import carleton.comp2601.pointlesspredictions.ui.theme.Shapes
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Composable
-fun AuthForm(
+fun AuthForm (
     modifier: Modifier = Modifier,
     authMode: AuthMode,
     username: String?,
     password: String?,
     enableAuthentication: Boolean,
+    navController: NavController,
+    repo: UserRepository,
+    dao: UserDao,
     onUsernameChanged: (username: String) -> Unit,
     onPasswordChanged: (password: String) -> Unit,
     onAuthenticate: () -> Unit,
@@ -50,32 +59,67 @@ fun AuthForm(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
-        Spacer(modifier = Modifier.height(32.dp))
-        AuthTitle(authMode = authMode)
+        val windowInfo = rememberWindowInfo()
+        if (windowInfo.screenWidthInfo is WindowInfo.WindowType.Compact) {
+            Spacer(modifier = Modifier.height(32.dp))
+        }
 
+        AuthTitle(authMode = authMode)
+        customDivider()
         // USERNAME TEXTFIELD
-        Spacer(modifier = Modifier.height(5.dp))
         UsernameInput(modifier = Modifier.fillMaxWidth(), username = username ?: "", onUsernameChanged = onUsernameChanged)
 
         // PASSWORD TEXTFIELD
         Spacer(modifier = Modifier.height(10.dp))
         PasswordInput(modifier = Modifier.fillMaxWidth(), password = password ?: "", onPasswordChanged = onPasswordChanged, onDoneClicked = onAuthenticate)
 
-        // SIGN IN BUTTON
-        Spacer(modifier = Modifier.height(10.dp))
-        AuthButton(authMode = authMode, enableAuthentication = enableAuthentication, onAuthenticate = onAuthenticate)
+        if (windowInfo.screenWidthInfo is WindowInfo.WindowType.Compact) {
+            // SIGN IN BUTTON
+            Spacer(modifier = Modifier.height(10.dp))
+            AuthButton(navController = navController, modifier = Modifier.fillMaxWidth(), repo = repo, dao = dao, authMode = authMode, enableAuthentication = enableAuthentication, onAuthenticate = onAuthenticate)
 
-        // SIMPLE DIVIDER ELEMENT
-        Divider(
-            color = Color.White.copy(alpha = 0.3f),
-            thickness = 1.dp,
-            modifier = Modifier.padding(top = 10.dp)
-        )
+            // SIMPLE DIVIDER ELEMENT
+            customDivider()
 
-        // SIGN UP ROW
-        Spacer(modifier = Modifier.height(10.dp))
-        ToggleAuthModeButton(modifier = Modifier.fillMaxWidth(), authMode = authMode, toggleAuth = { onToggleMode() })
+            // SIGN UP ROW
+            // Spacer(modifier = Modifier.height(10.dp))
+            ToggleAuthModeButton(modifier = Modifier.fillMaxWidth(), authMode = authMode, toggleAuth = { onToggleMode() })
+        } else {
+            // SIMPLE DIVIDER ELEMENT
+            customDivider()
+
+            Row (modifier = Modifier.fillMaxWidth()) {
+                Column(
+                    modifier = Modifier.weight(1f),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    // SIGN IN BUTTON
+                    AuthButton(modifier = Modifier.fillMaxWidth(), navController = navController, repo = repo, dao = dao, authMode = authMode, enableAuthentication = enableAuthentication, onAuthenticate = onAuthenticate)
+                }
+
+                Spacer(modifier = Modifier.width(10.dp))
+
+                Column(
+                    modifier = Modifier.weight(1f),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    // TOGGLE AUTH MODE BUTTON
+                    ToggleAuthModeButton(modifier = Modifier.fillMaxWidth(), altText = true, authMode = authMode, toggleAuth = { onToggleMode() })
+                }
+            }
+        }
     }
+}
+
+@Composable
+fun customDivider() {
+    Divider(
+        color = Color.White.copy(alpha = 0.3f),
+        thickness = 1.dp,
+        modifier = Modifier.padding(top = 10.dp)
+    )
+
+    Spacer(modifier = Modifier.height(10.dp))
 }
 
 @Composable
@@ -114,8 +158,6 @@ fun UsernameInput(
     username: String?,
     onUsernameChanged: (username: String) -> Unit
 ) {
-
-
     TextInput(
         InputType.Username,
         inValue = username ?: "",
@@ -156,9 +198,19 @@ fun AuthButton (
     modifier: Modifier = Modifier,
     authMode: AuthMode,
     enableAuthentication: Boolean,
+    navController: NavController,
+    repo: UserRepository,
+    dao: UserDao,
     onAuthenticate: () -> Unit
 ){
-    Button(onClick = { onAuthenticate() }, enabled = enableAuthentication, colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary), modifier = Modifier.fillMaxWidth()) {
+    Button(
+        onClick = {
+            onAuthenticate()
+        },
+        enabled = enableAuthentication,
+        colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary),
+        modifier = modifier
+    ) {
         Text(
             text = stringResource(
                 if (authMode == AuthMode.SIGN_IN) {
@@ -178,14 +230,23 @@ fun AuthButton (
 fun ToggleAuthModeButton(
     modifier: Modifier = Modifier,
     authMode: AuthMode,
+    altText: Boolean = false, // altText is only true when device is in non-compact mode
     toggleAuth: () -> Unit
 ){
     Button(onClick = { toggleAuth() }, colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary), modifier = Modifier.fillMaxWidth()) {
+
         Text(
             text = stringResource(
-                if (authMode == AuthMode.SIGN_IN) {
+                if (authMode == AuthMode.SIGN_IN && altText) {
+                    R.string.action_need_account_alt_text
+                }
+                else if (authMode == AuthMode.SIGN_IN) {
                     R.string.action_need_account
-                } else {
+                }
+                else if (authMode == AuthMode.SIGN_UP && altText) {
+                    R.string.action_already_have_account_alt_text
+                }
+                else {
                     R.string.action_already_have_account
                 }
             ),
@@ -204,16 +265,15 @@ fun TextInput(
     inValue: String?,
     onValueChange: (inValue: String) -> Unit,
 ) {
-    // var value by remember { mutableStateOf("") }
-
     TextField(
         value = inValue ?: "",
         onValueChange = onValueChange,
         modifier = Modifier
             .fillMaxWidth()
             .focusRequester(focusRequester ?: FocusRequester()),
-        leadingIcon = { Icon(imageVector = inputType.icon, null) },
+        leadingIcon = { inputType.icon?.let { Icon(imageVector = it, null) } },
         label = { Text(text = inputType.label, color = Color.Black) },
+        placeholder = { Text(text=inputType.placeholderText)},
         shape = Shapes.small,
         colors = TextFieldDefaults.textFieldColors(
             textColor = Color.Black,
@@ -229,26 +289,7 @@ fun TextInput(
     )
 }
 
-sealed class InputType(
-    val label: String,
-    val icon: ImageVector,
-    val keyboardOptions: KeyboardOptions,
-    val visualTransformation: VisualTransformation
-) {
-    object Username:InputType(
-        label = "Username",
-        icon = Icons.Default.Person,
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-        visualTransformation = VisualTransformation.None
-    )
 
-    object Password:InputType(
-        label = "Password",
-        icon = Icons.Default.Lock,
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done, keyboardType = KeyboardType.Password),
-        visualTransformation = PasswordVisualTransformation()
-    )
-}
 
 @Composable
 fun AuthErrorDialog(
@@ -280,22 +321,73 @@ fun AuthErrorDialog(
     )
 }
 
+enum class AuthMode {
+    SIGN_UP, SIGN_IN
+}
 
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    PointlessPredictionsTheme {
-        Box(modifier = Modifier.padding(20.dp).background(color = Color.Black)){
-            AuthForm(
-                authMode = AuthMode.SIGN_IN,
-                username = "",
-                password = "",
-                enableAuthentication = true,
-                onUsernameChanged = {},
-                onPasswordChanged = {},
-                onAuthenticate = {},
-                onToggleMode = {}
-            )
-        }
+data class AuthState(
+    val authMode: AuthMode = AuthMode.SIGN_IN,
+    val username: String? = null,
+    val password: String? = null,
+    val isLoading: Boolean = false,
+    val error: String? = null
+) {
+    fun isFormValid(): Boolean {
+        return password?.isNotEmpty() == true && username?.isNotEmpty() == true // && authMode == AuthMode.SIGN_IN
     }
+}
+
+sealed class InputType(
+    val label: String,
+    val placeholderText: String = "",
+    val icon: ImageVector? = null,
+    val keyboardOptions: KeyboardOptions,
+    val visualTransformation: VisualTransformation
+) {
+    object Username:InputType(
+        label = "Username",
+        icon = Icons.Default.Person,
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+        visualTransformation = VisualTransformation.None
+    )
+
+    object Password:InputType(
+        label = "Password",
+        icon = Icons.Default.Lock,
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done, keyboardType = KeyboardType.Password),
+        visualTransformation = PasswordVisualTransformation()
+    )
+
+    object PredictionText:InputType(
+        label = "Prediction",
+        placeholderText = "You predict that ...",
+        icon = Icons.Default.AutoFixHigh,
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+        visualTransformation = VisualTransformation.None
+    )
+
+    object Day:InputType(
+        label = "DD",
+        placeholderText = "31",
+        icon = Icons.Default.Today,
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+        visualTransformation = VisualTransformation.None
+    )
+
+    object Month:InputType(
+        label = "MM",
+        placeholderText = "12",
+        icon = Icons.Default.CalendarMonth,
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+        visualTransformation = VisualTransformation.None
+    )
+
+    object Year:InputType(
+        label = "YYYY",
+        placeholderText = "2023",
+        icon = Icons.Default.CalendarToday,
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+        visualTransformation = VisualTransformation.None
+    )
+
 }
