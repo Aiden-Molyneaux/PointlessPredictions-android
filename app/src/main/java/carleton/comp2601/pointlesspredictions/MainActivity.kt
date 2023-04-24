@@ -1,7 +1,6 @@
 package carleton.comp2601.pointlesspredictions
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
@@ -49,23 +48,33 @@ class MainActivity : ComponentActivity() {
 
         val friendships = listOf(
             Friendship(1, 2),
+            Friendship(2, 1),
             Friendship(1, 3),
+            Friendship(3, 1),
             Friendship(1, 4),
+            Friendship(4, 1),
             Friendship(1, 5),
+            Friendship(5, 1),
+            Friendship(1, 6),
+            Friendship(6, 1),
             Friendship(2, 3),
+            Friendship(3, 2),
             Friendship(2, 5),
+            Friendship(5, 2),
             Friendship(3, 4),
+            Friendship(4, 3),
+            Friendship(6, 2),
+            Friendship(2, 6),
+            Friendship(6, 3),
+            Friendship(3, 6),
+            Friendship(6, 4),
+            Friendship(4, 6),
         )
 
         lifecycleScope.launch {
             users.forEach { dao.addUser(it) }
             predictions.forEach { dao.upsertPrediction(it) }
             friendships.forEach { dao.addFriendship(it) }
-
-            val friends = dao.getFriendsOfUser(1)
-            friends.forEach {
-                Log.d(it.user_id1.toString(), it.user_id2.toString())
-            }
         }
 
         setContent {

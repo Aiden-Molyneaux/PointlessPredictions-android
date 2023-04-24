@@ -7,7 +7,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
@@ -34,7 +33,6 @@ fun AuthAboutUsButton() {
                         color = MaterialTheme.colors.onBackground
                     )
                 }
-
             },
             text = {
                 Column(){
@@ -52,7 +50,6 @@ fun AuthAboutUsButton() {
                         color = Color.Black
                     )
                 }
-
             },
             confirmButton = {
                 Button(onClick = { showDialog = false }) {
@@ -73,7 +70,6 @@ fun AuthAboutUsButton() {
                 append("About Pointless Predictions")
             }
         }
-
         Text(
             text = dialogText,
             color = MaterialTheme.colors.onBackground,

@@ -15,23 +15,20 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import carleton.comp2601.pointlesspredictions.data.UserDao
-import carleton.comp2601.pointlesspredictions.data.UserRepository
 import carleton.comp2601.pointlesspredictions.ui.common.CommonBottomAppBar
 import carleton.comp2601.pointlesspredictions.ui.common.CommonNavigationButton
 import carleton.comp2601.pointlesspredictions.ui.common.CommonPredictionCounter
 import carleton.comp2601.pointlesspredictions.ui.common.prediction_pop_up.PredictionPopUpContent
 import carleton.comp2601.pointlesspredictions.ui.s2_home.screens.HomeFeedWindow
-import carleton.comp2601.pointlesspredictions.ui.s2_home.screens.HomeNavigationButtons
 import carleton.comp2601.pointlesspredictions.ui.s2_home.screens.HomeTopAppBar
 import carleton.comp2601.pointlesspredictions.ui.s2_home.viewmodels.HomeEvent
-import carleton.comp2601.pointlesspredictions.ui.s3_profile.viewmodels.ProfileEvent
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 /// RENDERED AFTER SUCCESSFUL LOGIN
-fun HomeScreen(navController: NavController, repo: UserRepository, dao: UserDao, user_id: String?) {
+fun HomeScreen(navController: NavController, dao: UserDao, user_id: String?) {
     val viewModel: HomeViewModel = viewModel()
     val handleEvent = viewModel::handleEvent
 
@@ -143,7 +140,7 @@ fun HomeScreen(navController: NavController, repo: UserRepository, dao: UserDao,
                     CommonNavigationButton(
                         modifier = Modifier
                             .weight(1f)
-                            .padding(start = 4.dp)
+                            .padding(end = 4.dp)
                             .fillMaxHeight(),
                         label = "Friends",
                         navigateTo = {

@@ -6,7 +6,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -18,7 +17,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import carleton.comp2601.pointlesspredictions.data.UserDao
-import carleton.comp2601.pointlesspredictions.data.UserRepository
 import carleton.comp2601.pointlesspredictions.ui.common.WindowInfo
 import carleton.comp2601.pointlesspredictions.ui.common.rememberWindowInfo
 import carleton.comp2601.pointlesspredictions.ui.s1_authentication.screens.AuthErrorDialog
@@ -26,7 +24,7 @@ import carleton.comp2601.pointlesspredictions.ui.s1_authentication.viewmodels.Au
 import carleton.comp2601.pointlesspredictions.ui.s1_authentication.viewmodels.AuthViewModel
 
 @Composable
-fun AuthScreen(navController: NavController, repo: UserRepository, dao : UserDao) {
+fun AuthScreen(navController: NavController, dao : UserDao) {
     val windowInfo = rememberWindowInfo()
     if (windowInfo.screenWidthInfo is WindowInfo.WindowType.Compact) {
         Column (
@@ -61,8 +59,7 @@ fun AuthScreen(navController: NavController, repo: UserRepository, dao : UserDao
                 ),
                 modifier = Modifier.padding(top = 40.dp)
             )
-
-            LoginForm(navController, repo, dao)
+            LoginForm(navController, dao)
         }
     } else {
         Row (
@@ -105,9 +102,8 @@ fun AuthScreen(navController: NavController, repo: UserRepository, dao : UserDao
                 modifier = Modifier.weight(1f),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                LoginForm(navController, repo, dao)
+                LoginForm(navController, dao)
             }
-
         }
     }
 }
@@ -115,7 +111,6 @@ fun AuthScreen(navController: NavController, repo: UserRepository, dao : UserDao
 @Composable
 fun LoginForm(
     navController: NavController,
-    repo: UserRepository,
     dao: UserDao
 ) {
     val viewModel: AuthViewModel = viewModel()
@@ -140,7 +135,6 @@ fun LoginForm(
                     password = authState.password ?: "",
                     enableAuthentication = authState.isFormValid(),
                     navController = navController,
-                    repo = repo,
                     dao = dao,
                     onUsernameChanged = {
                         handleEvent(AuthEvent.UsernameChanged(it))

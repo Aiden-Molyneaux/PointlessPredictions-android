@@ -103,11 +103,6 @@ fun PredictionPopUpContent(
             }
         }
 
-//        Spacer(modifier = Modifier
-//            .height(2.dp)
-//            .fillMaxWidth()
-//            .background(color = MaterialTheme.colors.onBackground))
-
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,

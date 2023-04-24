@@ -15,7 +15,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import carleton.comp2601.pointlesspredictions.data.UserDao
-import carleton.comp2601.pointlesspredictions.data.UserRepository
 import carleton.comp2601.pointlesspredictions.ui.common.CommonBottomAppBar
 import carleton.comp2601.pointlesspredictions.ui.common.prediction_pop_up.PredictionPopUpContent
 import carleton.comp2601.pointlesspredictions.ui.common.CommonNavigationButton
@@ -28,7 +27,7 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 /// RENDERED AFTER SUCCESSFUL LOGIN
-fun FriendsScreen(navController: NavController, repo: UserRepository, dao: UserDao, user_id: String?) {
+fun FriendsScreen(navController: NavController, dao: UserDao, user_id: String?) {
     val viewModel: FriendsViewModel = viewModel()
     val handleEvent = viewModel::handleEvent
 
@@ -112,7 +111,6 @@ fun FriendsScreen(navController: NavController, repo: UserRepository, dao: UserD
                             )
                         }
                     }
-
 
                     Column(
                         modifier = Modifier

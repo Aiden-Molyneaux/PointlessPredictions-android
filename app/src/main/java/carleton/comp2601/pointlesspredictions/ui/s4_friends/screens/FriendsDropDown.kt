@@ -1,11 +1,9 @@
 package carleton.comp2601.pointlesspredictions.ui.s4_friends.screens
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -19,11 +17,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.PopupProperties
-import carleton.comp2601.pointlesspredictions.entities.Prediction
 import carleton.comp2601.pointlesspredictions.entities.User
 import carleton.comp2601.pointlesspredictions.ui.common.rememberWindowInfo
-import carleton.comp2601.pointlesspredictions.ui.s4_friends.viewmodels.FriendsViewModel
 import carleton.comp2601.pointlesspredictions.ui.theme.falseRed
 import carleton.comp2601.pointlesspredictions.ui.theme.trueGreen
 

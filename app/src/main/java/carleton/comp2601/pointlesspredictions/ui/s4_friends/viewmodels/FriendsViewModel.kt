@@ -1,6 +1,5 @@
 package carleton.comp2601.pointlesspredictions.ui.s4_friends.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
@@ -10,14 +9,11 @@ import carleton.comp2601.pointlesspredictions.entities.Prediction
 import carleton.comp2601.pointlesspredictions.entities.User
 import carleton.comp2601.pointlesspredictions.entities.relations.UserWithPredictions
 import carleton.comp2601.pointlesspredictions.ui.common.Screen
-import carleton.comp2601.pointlesspredictions.ui.s4_friends.viewmodels.FriendsScreenEvent
-import carleton.comp2601.pointlesspredictions.ui.s4_friends.viewmodels.FriendsScreenState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import kotlin.concurrent.fixedRateTimer
 
 class FriendsViewModel : ViewModel() {
     val uiState = MutableStateFlow(FriendsScreenState())

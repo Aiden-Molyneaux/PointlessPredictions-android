@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import carleton.comp2601.pointlesspredictions.R
 import carleton.comp2601.pointlesspredictions.data.UserDao
-import carleton.comp2601.pointlesspredictions.data.UserRepository
 import carleton.comp2601.pointlesspredictions.ui.s1_authentication.viewmodels.AuthMode
 
 @Composable
@@ -23,7 +22,6 @@ fun TriggerAuthButton (
     authMode: AuthMode,
     enableAuthentication: Boolean,
     navController: NavController,
-    repo: UserRepository,
     dao: UserDao,
     onAuthenticate: () -> Unit
 ){

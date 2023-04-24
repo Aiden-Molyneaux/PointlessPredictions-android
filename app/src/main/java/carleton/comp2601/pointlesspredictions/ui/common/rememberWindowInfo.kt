@@ -1,6 +1,5 @@
 package carleton.comp2601.pointlesspredictions.ui.common
 
-import android.view.Window
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.Dp

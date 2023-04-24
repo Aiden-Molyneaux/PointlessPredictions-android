@@ -5,7 +5,6 @@ import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -26,7 +25,6 @@ import kotlinx.parcelize.Parcelize
     ]
 )
 data class Friendship (
-//    @PrimaryKey(autoGenerate = false)
     @NonNull
     @ColumnInfo(name = "user_id1")
     var user_id1: Int,

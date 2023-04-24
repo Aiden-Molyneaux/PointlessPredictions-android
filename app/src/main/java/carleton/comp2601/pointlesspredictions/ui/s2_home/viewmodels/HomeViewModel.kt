@@ -8,7 +8,6 @@ import carleton.comp2601.pointlesspredictions.entities.Prediction
 import carleton.comp2601.pointlesspredictions.ui.common.Screen
 import carleton.comp2601.pointlesspredictions.ui.s2_home.viewmodels.HomeEvent
 import carleton.comp2601.pointlesspredictions.ui.s2_home.viewmodels.HomeState
-import carleton.comp2601.pointlesspredictions.ui.s3_profile.viewmodels.ProfileEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch

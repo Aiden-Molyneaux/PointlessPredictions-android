@@ -15,7 +15,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import carleton.comp2601.pointlesspredictions.data.UserDao
-import carleton.comp2601.pointlesspredictions.data.UserRepository
 import carleton.comp2601.pointlesspredictions.ui.common.CommonBottomAppBar
 import carleton.comp2601.pointlesspredictions.ui.common.CommonNavigationButton
 import carleton.comp2601.pointlesspredictions.ui.common.CommonPredictionCounter
@@ -30,7 +29,7 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 /// RENDERED AFTER SUCCESSFUL LOGIN
-fun ProfileScreen(navController: NavController, repo: UserRepository, dao: UserDao, user_id: String?) {
+fun ProfileScreen(navController: NavController, dao: UserDao, user_id: String?) {
     val viewModel: ProfileViewModel = viewModel()
     val handleEvent = viewModel::handleEvent
 

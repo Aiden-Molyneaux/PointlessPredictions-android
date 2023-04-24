@@ -2,7 +2,6 @@ package carleton.comp2601.pointlesspredictions.ui.s2_home.viewmodels
 
 import androidx.navigation.NavController
 import carleton.comp2601.pointlesspredictions.data.UserDao
-import carleton.comp2601.pointlesspredictions.ui.s3_profile.viewmodels.ProfileEvent
 
 sealed class HomeEvent {
     class inititalizeHomeScreen(val user_id: String?, val dao: UserDao):

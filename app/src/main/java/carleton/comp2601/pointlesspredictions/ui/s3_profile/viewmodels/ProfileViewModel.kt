@@ -1,6 +1,5 @@
 package carleton.comp2601.pointlesspredictions.ui.s3_profile.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController

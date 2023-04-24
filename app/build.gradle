@@ -3,9 +3,6 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
-    // id("com.google.dagger.hilt.android") version "2.44" apply false
-    // kotlin("kapt")
-    // id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -90,19 +87,6 @@ dependencies {
     implementation "androidx.compose.runtime:runtime-livedata:1.2.1"
     annotationProcessor "androidx.room:room-compiler:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
-
-    // ADDED FROM PHILIPP LACKNER NAVIGATION VIDEO
-
-//    implementation 'com.google.dagger:dagger:2.44'
-//    kapt 'com.google.dagger:dagger-compiler:2.44'
-//    implementation("com.google.dagger:hilt-android:2.44")
-//    kapt("com.google.dagger:hilt-android-compiler:2.44")
-//    implementation "com.google.dagger:hilt-android:2.44"
-//    kapt "com.google.dagger:hilt-android-compiler:2.44"
-//    implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
-//    implementation 'com.google.dagger:dagger:2.44'
-//    kapt 'com.google.dagger:dagger-compiler:2.44'
-    // implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
 }
 
 kapt {

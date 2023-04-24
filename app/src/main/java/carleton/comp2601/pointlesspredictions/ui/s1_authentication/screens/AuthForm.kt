@@ -6,12 +6,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import carleton.comp2601.pointlesspredictions.data.UserDao
-import carleton.comp2601.pointlesspredictions.data.UserRepository
 import carleton.comp2601.pointlesspredictions.ui.common.WindowInfo
 import carleton.comp2601.pointlesspredictions.ui.common.rememberWindowInfo
 import carleton.comp2601.pointlesspredictions.ui.s1_authentication.screens.*
@@ -25,7 +22,6 @@ fun AuthForm (
     password: String?,
     enableAuthentication: Boolean,
     navController: NavController,
-    repo: UserRepository,
     dao: UserDao,
     onUsernameChanged: (username: String) -> Unit,
     onPasswordChanged: (password: String) -> Unit,
@@ -53,7 +49,7 @@ fun AuthForm (
         if (windowInfo.screenWidthInfo is WindowInfo.WindowType.Compact) {
             // SIGN IN BUTTON
             Spacer(modifier = Modifier.height(10.dp))
-            TriggerAuthButton(navController = navController, modifier = Modifier.fillMaxWidth(), repo = repo, dao = dao, authMode = authMode, enableAuthentication = enableAuthentication, onAuthenticate = onAuthenticate)
+            TriggerAuthButton(navController = navController, modifier = Modifier.fillMaxWidth(), dao = dao, authMode = authMode, enableAuthentication = enableAuthentication, onAuthenticate = onAuthenticate)
 
             // SIMPLE DIVIDER ELEMENT
             customDivider()
@@ -73,7 +69,7 @@ fun AuthForm (
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     // SIGN IN BUTTON
-                    TriggerAuthButton(modifier = Modifier.fillMaxWidth(), navController = navController, repo = repo, dao = dao, authMode = authMode, enableAuthentication = enableAuthentication, onAuthenticate = onAuthenticate)
+                    TriggerAuthButton(modifier = Modifier.fillMaxWidth(), navController = navController, dao = dao, authMode = authMode, enableAuthentication = enableAuthentication, onAuthenticate = onAuthenticate)
                 }
 
                 Spacer(modifier = Modifier.width(10.dp))
