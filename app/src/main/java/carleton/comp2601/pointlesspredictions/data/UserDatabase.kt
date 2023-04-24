@@ -1,18 +1,20 @@
-package carleton.comp2601.pointlesspredictions
+package carleton.comp2601.pointlesspredictions.data
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import carleton.comp2601.pointlesspredictions.entities.Friendship
 import carleton.comp2601.pointlesspredictions.entities.User
 import carleton.comp2601.pointlesspredictions.entities.Prediction
 
 @Database(
     entities = [
         User::class,
-        Prediction::class
+        Prediction::class,
+        Friendship::class
     ],
-    version = 4
+    version = 10
 )
 
 abstract class UserDatabase : RoomDatabase() {

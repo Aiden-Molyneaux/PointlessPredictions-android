@@ -26,5 +26,8 @@ data class Prediction (
     val datePlaced: String,
 
     @ColumnInfo(name = "expiration_date")
-    val expirationDate: String
+    val expirationDate: String,
+
+    @ColumnInfo(name = "confirmation_status")
+    val confirmationStatus: Boolean?=null
 ) : Parcelable

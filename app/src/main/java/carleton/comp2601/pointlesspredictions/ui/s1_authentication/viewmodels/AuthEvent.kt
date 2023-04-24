@@ -1,8 +1,7 @@
-package carleton.comp2601.pointlesspredictions
+package carleton.comp2601.pointlesspredictions.ui.s1_authentication.viewmodels
 
-import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
-import carleton.comp2601.pointlesspredictions.entities.User
+import carleton.comp2601.pointlesspredictions.data.UserDao
 
 sealed class AuthEvent {
     object ToggleAuthMode: AuthEvent()

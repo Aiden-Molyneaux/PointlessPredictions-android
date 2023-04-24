@@ -1,6 +1,7 @@
-package carleton.comp2601.pointlesspredictions
+package carleton.comp2601.pointlesspredictions.data
 
 import androidx.lifecycle.MutableLiveData
+import carleton.comp2601.pointlesspredictions.data.UserDao
 import carleton.comp2601.pointlesspredictions.entities.Prediction
 import carleton.comp2601.pointlesspredictions.entities.User
 import kotlinx.coroutines.*
@@ -44,7 +45,7 @@ class UserRepository(private val userDao: UserDao) {
 
     fun addPrediction(prediction: Prediction) {
         coroutineScope.launch(Dispatchers.IO) {
-            userDao.addPrediction(prediction)
+            userDao.upsertPrediction(prediction)
         }
     }
 

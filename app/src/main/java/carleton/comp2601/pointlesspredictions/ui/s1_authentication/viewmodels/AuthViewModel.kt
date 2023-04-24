@@ -1,12 +1,11 @@
-package carleton.comp2601.pointlesspredictions
+package carleton.comp2601.pointlesspredictions.ui.s1_authentication.viewmodels
 
-import android.util.Log
-import androidx.compose.runtime.mutableStateMapOf
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import carleton.comp2601.pointlesspredictions.data.UserDao
 import carleton.comp2601.pointlesspredictions.entities.User
+import carleton.comp2601.pointlesspredictions.ui.common.Screen
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 
@@ -16,7 +15,6 @@ class AuthViewModel : ViewModel() {
     fun handleEvent(authEvent: AuthEvent) {
         when (authEvent) {
             is AuthEvent.ToggleAuthMode -> {
-                Log.d("EVENT", "ToggleAuthMode")
                 toggleAuthMode()
             }
             is AuthEvent.UsernameChanged -> {
@@ -35,13 +33,11 @@ class AuthViewModel : ViewModel() {
     }
 
     private fun toggleAuthMode() {
-        val newAuthMode = if (uiState.value.authMode==AuthMode.SIGN_IN) AuthMode.SIGN_UP else AuthMode.SIGN_IN
+        val newAuthMode = if (uiState.value.authMode== AuthMode.SIGN_IN) AuthMode.SIGN_UP else AuthMode.SIGN_IN
 
         uiState.value = uiState.value.copy(
             authMode = newAuthMode
         )
-
-        Log.d("NEW_AUTH", uiState.value.authMode.name)
     }
 
     private fun updateUsername(username: String) {
@@ -80,9 +76,7 @@ class AuthViewModel : ViewModel() {
                 }
 
                 if (isAuthenticated) {
-                    // IMPLEMENT PAGE SWITCH
-                    Log.d("Logged in", "as " + currentUser?.userName)
-                    navController.navigate(Screen.MainScreen.withArgs(currentUser!!.user_id.toString()))
+                    navController.navigate(Screen.HomeScreen.withArgs(currentUser!!.user_id.toString()))
                 } else {
                     displayError("User with these credentials does not exist")
                 }
@@ -98,7 +92,7 @@ class AuthViewModel : ViewModel() {
                 }
                 var newUser = User(topID+1, username, password)
                 dao.addUser(newUser)
-                navController.navigate(Screen.MainScreen.withArgs(newUser.user_id.toString()))
+                navController.navigate(Screen.HomeScreen.withArgs(newUser.user_id.toString()))
             }
         }
     }

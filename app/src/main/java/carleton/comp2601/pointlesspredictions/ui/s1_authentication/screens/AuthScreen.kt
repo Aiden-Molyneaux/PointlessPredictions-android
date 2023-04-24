@@ -2,11 +2,11 @@ package carleton.comp2601.pointlesspredictions
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -17,14 +17,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import carleton.comp2601.pointlesspredictions.data.UserDao
+import carleton.comp2601.pointlesspredictions.data.UserRepository
+import carleton.comp2601.pointlesspredictions.ui.common.WindowInfo
+import carleton.comp2601.pointlesspredictions.ui.common.rememberWindowInfo
+import carleton.comp2601.pointlesspredictions.ui.s1_authentication.screens.AuthErrorDialog
+import carleton.comp2601.pointlesspredictions.ui.s1_authentication.viewmodels.AuthEvent
+import carleton.comp2601.pointlesspredictions.ui.s1_authentication.viewmodels.AuthViewModel
 
 @Composable
-fun LoginScreen(navController: NavController, repo: UserRepository, dao : UserDao) {
+fun AuthScreen(navController: NavController, repo: UserRepository, dao : UserDao) {
     val windowInfo = rememberWindowInfo()
     if (windowInfo.screenWidthInfo is WindowInfo.WindowType.Compact) {
         Column (
             Modifier
-                .padding(24.dp)
+                .padding(top = 24.dp, start = 24.dp, end = 24.dp)
                 .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(48.dp, alignment = Alignment.Top),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -60,7 +67,7 @@ fun LoginScreen(navController: NavController, repo: UserRepository, dao : UserDa
     } else {
         Row (
             Modifier
-                .padding(24.dp)
+                .padding(top = 24.dp, start = 24.dp, end = 24.dp)
                 .fillMaxWidth(),
         ) {
             Column(
@@ -118,7 +125,7 @@ fun LoginForm(
     MaterialTheme {
         Column (
             Modifier
-                .padding(24.dp)
+                .padding(top = 24.dp, start = 24.dp, end = 24.dp)
                 .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.Bottom),
             horizontalAlignment = Alignment.CenterHorizontally

@@ -1,4 +1,4 @@
-package carleton.comp2601.pointlesspredictions
+package carleton.comp2601.pointlesspredictions.ui.common
 
 import android.view.Window
 import androidx.compose.runtime.Composable
